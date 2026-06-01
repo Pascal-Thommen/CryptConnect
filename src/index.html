@@ -293,7 +293,7 @@
         swapFromLabel: "Desde", swapToLabel: "A", apiConnecting: "● Conectando al feed de precios...",
         apiOnline: "● Precios en vivo", apiOffline: "○ Usando precios en caché",
         feeFree: "Gratis (0%)", feeCrypto: "Comisión 1% + red", insuficiente: "Transacción Rechazada - Fondos Insuficientes",
-        tabCryptoLabel: "Krypto-Wallet", tabBankLabel: "Banca Paraguay",
+        tabCryptoLabel: "Billetera Cripto", tabBankLabel: "Banca Paraguay",
         settingsStorage: "Almacenamiento", sendAssetLabel: "Activo", sendDestLabel: "Destino",
         receiveAssetLabel: "Activo", swapAmountLabel: "Cantidad",
         purchaseApproved: "✓ Compra Aprobada", purchaseRejected: "✗ Transacción Rechazada - Fondos Insuficientes",
@@ -324,7 +324,7 @@
         swapFromLabel: "From", swapToLabel: "To", apiConnecting: "● Connecting to price feed...",
         apiOnline: "● Live prices", apiOffline: "○ Using cached prices",
         feeFree: "Free (0%)", feeCrypto: "1% service fee + network", insuficiente: "Transaction Declined - Insufficient Funds",
-        tabCryptoLabel: "Crypto Wallet", tabBankLabel: "Paraguay Bank",
+        tabCryptoLabel: "Crypto Wallet", tabBankLabel: "Bank Paraguay",
         settingsStorage: "Storage", sendAssetLabel: "Asset", sendDestLabel: "Destination",
         receiveAssetLabel: "Asset", swapAmountLabel: "Amount",
         purchaseApproved: "✓ Purchase Approved", purchaseRejected: "✗ Transaction Declined - Insufficient Funds",
@@ -355,7 +355,7 @@
         swapFromLabel: "Von", swapToLabel: "Nach", apiConnecting: "● Verbinde mit Preisfeed...",
         apiOnline: "● Live-Preise", apiOffline: "○ Verwende zwischengespeicherte Preise",
         feeFree: "Kostenlos (0%)", feeCrypto: "1% Gebühr + Netzwerk", insuficiente: "Transaktion abgelehnt - Ungenügende Deckung",
-        tabCryptoLabel: "Krypto-Wallet", tabBankLabel: "Paraguay Bank",
+        tabCryptoLabel: "Krypto-Wallet", tabBankLabel: "Bank Paraguay",
         settingsStorage: "Speicher", sendAssetLabel: "Asset", sendDestLabel: "Ziel",
         receiveAssetLabel: "Asset", swapAmountLabel: "Betrag",
         purchaseApproved: "✓ Kauf genehmigt", purchaseRejected: "✗ Transaktion abgelehnt - Ungenügende Deckung",
@@ -645,8 +645,8 @@
       var totalGs = totalPortfolioGs();
       var totalUSD = totalPortfolioUSD();
       var barPct = Math.min(100, (totalGs / 25000000) * 100); // 25M Gs reference
-      document.getElementById('totalBalance').textContent = '$' + totalUSD.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      document.getElementById('totalGs').textContent = 'Gs. ' + Math.round(totalGs).toLocaleString();
+      document.getElementById('totalBalance').textContent = 'Gs. ' + Math.round(totalGs).toLocaleString();
+      document.getElementById('totalGs').textContent = '$' + totalUSD.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
       document.getElementById('balanceBar').style.width = barPct + '%';
       document.getElementById('barPercent').textContent = Math.round(barPct) + '%';
       document.getElementById('cardBalance').textContent = Math.round(holdings['Gs'] || 0).toLocaleString();
