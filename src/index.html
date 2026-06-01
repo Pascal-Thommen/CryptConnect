@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Crypt Connect Paraguay — P2P crypto exchange and passive DeFi yield platform">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -49,6 +53,10 @@
         <h1 id="appTitle" class="text-xl font-bold">Crypt Connect</h1>
       </div>
       <div class="flex gap-1">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" id="themeToggle" class="text-xs px-2 py-1 rounded" style="background:transparent;color:var(--text)" title="Theme wechseln">
+          <span id="themeIcon">🌙</span>
+        </button>
         <button onclick="switchLang('es')" id="btnEs" class="text-xs px-2 py-1 rounded font-bold" style="background:var(--accent);color:white">ES</button>
         <button onclick="switchLang('en')" id="btnEn" class="text-xs px-2 py-1 rounded" style="background:transparent;color:var(--text-dim)">EN</button>
         <button onclick="switchLang('de')" id="btnDe" class="text-xs px-2 py-1 rounded" style="background:transparent;color:var(--text-dim)">DE</button>
@@ -545,17 +553,52 @@
     // ======================== WORLD SWITCHER ========================
     function switchWorld(w) {
       world = w;
+      // Nur World wechseln, Theme beibehalten
       if (w === 'crypto') {
-        document.body.className = 'world-crypto world-transition';
         document.getElementById('tabCrypto').className = 'tab-active flex-1 text-center py-2';
         document.getElementById('tabBank').className = 'tab-inactive flex-1 text-center py-2';
       } else {
-        document.body.className = 'world-bank world-transition';
         document.getElementById('tabCrypto').className = 'tab-inactive flex-1 text-center py-2';
         document.getElementById('tabBank').className = 'tab-active flex-1 text-center py-2';
       }
       // Lucide re-init after DOM changes
       lucide.createIcons();
+    }
+
+    // ======================== THEME TOGGLE ========================
+    function toggleTheme() {
+      var hasDarkTheme = document.body.classList.contains('world-crypto');
+      
+      if (hasDarkTheme) {
+        // Wechsel zu Light-Mode
+        document.body.classList.remove('world-crypto');
+        document.body.classList.add('world-bank');
+        document.getElementById('themeIcon').textContent = '☀️';
+        localStorage.setItem('cc_theme', 'light');
+      } else {
+        // Wechsel zu Dark-Mode
+        document.body.classList.remove('world-bank');
+        document.body.classList.add('world-crypto');
+        document.getElementById('themeIcon').textContent = '🌙';
+        localStorage.setItem('cc_theme', 'dark');
+      }
+      
+      lucide.createIcons();
+    }
+
+    function initTheme() {
+      var savedTheme = localStorage.getItem('cc_theme');
+      
+      if (savedTheme === 'light') {
+        document.body.classList.remove('world-crypto');
+        document.body.classList.add('world-bank');
+        document.getElementById('themeIcon').textContent = '☀️';
+      } else {
+        // Default: Dark-Mode
+        document.body.classList.remove('world-bank');
+        document.body.classList.add('world-crypto');
+        document.getElementById('themeIcon').textContent = '🌙';
+      }
     }
 
     // ======================== MODALS ========================
@@ -626,7 +669,7 @@
       if (!asset || !amount || amount <= 0) { toast('Invalid amount', 'error'); return; }
       var gs = assetToGs(asset, amount);
       // Check: free if Gs-to-Gs or CC-to-CC (email/phone); else 1% fee
-      var isFree = (asset === 'Gs' || dest.includes('@') || dest.includes('+') || !dest);
+      var isFree = (asset === 'Gs');
       var feeGs = isFree ? 0 : calcFee(gs).total;
       var totalGs = gs + feeGs;
       var holdingsGs = assetToGs(asset, holdings[asset] || 0);
@@ -834,6 +877,7 @@
 
     // ======================== INIT ========================
     document.addEventListener('DOMContentLoaded', function() {
+      initTheme();  // Theme aus LocalStorage wiederherstellen
       init();
       lucide.createIcons();
     });

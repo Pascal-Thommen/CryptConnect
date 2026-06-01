@@ -34,30 +34,30 @@ const prices = { BTC: 67000, USDT: 1.0, EURC: 1.08, dCHF: 1.12, Gs: 1 };
 // ===== 3.2.1 Gs-to-Gs transfer: 0% fee =====
 console.log('\n=== 3.2.1 Gs-to-Gs transfer: confirms 0% fee ===');
 {
-  const isFree = (asset, dest) => asset === 'Gs' && (dest.includes('@') || dest.includes('+') || !dest);
-  assert(isFree('Gs', 'pascal@ex.com'),          'Gs + email -> free');
-  assert(isFree('Gs', '+595****3456'),            'Gs + phone -> free');
-  assert(!isFree('BTC', 'bc1externaladdr'),      'BTC + external addr -> NOT free');
-  assert(!isFree('Gs', 'bc1externaladdr'),       'Gs + external addr (no @/+) -> NOT free');
-  const fee = isFree('Gs', 'pascal@ex.com') ? 0 : calcFee(500000).total;
-  assertEqual(fee, 0, 'Fee = 0 for Gs-to-Gs');
+  const isFree = (asset) => asset === 'Gs';
+  assert(isFree('Gs'),                           'Gs -> free (any destination)');
+  assert(!isFree('BTC'),                         'BTC -> NOT free');
+  assert(!isFree('USDT'),                        'USDT -> NOT free');
+  assert(!isFree('EURC'),                        'EURC -> NOT free');
+  assert(!isFree('dCHF'),                        'dCHF -> NOT free');
+  const fee = isFree('Gs') ? 0 : calcFee(500000).total;
+  assertEqual(fee, 0, 'Fee = 0 for all Gs transfers');
 }
 
 // ===== 3.2.2 CC-to-CC transfer: 0% fee =====
 console.log('\n=== 3.2.2 CC-to-CC transfer: confirms 0% fee ===');
 {
-  const isFree = (asset, dest) => asset === 'Gs' && (dest.includes('@') || dest.includes('+') || !dest);
-  assert(isFree('Gs', 'user@cc.py'),             'CC-to-CC (Gs+email) -> free');
-  assert(isFree('Gs', '+595****4321'),            'CC-to-CC (Gs+phone) -> free');
-  const fee = isFree('Gs', 'user@cc.py') ? 0 : calcFee(3141500).total;
+  const isFree = (asset) => asset === 'Gs';
+  assert(isFree('Gs'),                           'CC-to-CC (Gs) -> free');
+  const fee = isFree('Gs') ? 0 : calcFee(3141500).total;
   assertEqual(fee, 0, 'Fee = 0 for CC-to-CC');
 }
 
 // ===== 3.2.3 Crypto external send: 1% fee + receipt =====
 console.log('\n=== 3.2.3 Crypto external send: 1% fee + receipt ===');
 {
-  const isFree = (asset, dest) => asset === 'Gs' && (dest.includes('@') || dest.includes('+') || !dest);
-  assert(!isFree('BTC', 'bc1external'), 'BTC external send: isFree=false');
+  const isFree = (asset) => asset === 'Gs';
+  assert(!isFree('BTC'), 'BTC external send: isFree=false');
   const gs = assetToGs('BTC', 0.01, prices);
   assertEqual(gs, 5025000, '0.01 BTC = 5,025,000 Gs');
   const fee = calcFee(gs);
