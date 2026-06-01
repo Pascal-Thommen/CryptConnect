@@ -122,12 +122,12 @@
       <div class="card mb-4" style="background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)">
         <div class="text-sm opacity-90" style="color:white" id="bankBalanceLabel">Saldo Disponible</div>
         <div class="text-4xl font-bold mt-2" style="color:white" id="bankBalanceDisplay">Gs. 0</div>
-        <div class="text-xs mt-2 opacity-75" style="color:white">● Cuenta Corriente - 0001-2345-6789</div>
+        <div class="text-xs mt-2 opacity-75" style="color:white"><span id="bankAccountLabel">● Cuenta Corriente</span> - 0001-2345-6789</div>
       </div>
 
       <!-- Virtual Debit Card -->
       <div class="card mb-4" id="virtualCardContainer">
-        <div class="text-sm font-semibold mb-3" style="color:var(--text-dim)">Tarjeta Virtual de Débito</div>
+        <div class="text-sm font-semibold mb-3" style="color:var(--text-dim)" id="bankCardLabel">Tarjeta Virtual de Débito</div>
         <!-- Card Visualization -->
         <div class="rounded-2xl p-5 text-white mb-3" style="background:linear-gradient(135deg, #059669 0%, #047857 40%, #065f46 100%); min-height:180px; box-shadow: 0 10px 40px rgba(5,150,105,0.3); position:relative; overflow:hidden">
           <!-- Subtle pattern overlay -->
@@ -149,15 +149,15 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S14.86 2 12.2 2C6.73 2 2 6.48 2 12s4.73 10 10 10c5.19 0 8.8-3.74 8.8-9.27 0-.65-.05-1.15-.15-1.63z"/></svg>
           Add to Google Pay
         </button>
-        <div class="text-xs text-center" style="color:var(--text-dim)">● Tarjeta virtual lista para usar</div>
+        <div class="text-xs text-center" style="color:var(--text-dim)" id="bankCardReady">● Tarjeta virtual lista para usar</div>
       </div>
 
       <!-- Banking Actions -->
       <div class="grid grid-cols-2 gap-2 mb-4">
-        <button onclick="openModal('transfer')" class="btn btn-primary flex items-center justify-center gap-1"><i data-lucide="arrow-right-left" class="w-4 h-4"></i> <span>Transferir</span></button>
-        <button onclick="openModal('payment')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="qr-code" class="w-4 h-4"></i> <span>Pagar QR</span></button>
-        <button onclick="openModal('billing')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="receipt-text" class="w-4 h-4"></i> <span>Extracto</span></button>
-        <button onclick="openModal('settings')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="settings" class="w-4 h-4"></i> <span>Ajustes</span></button>
+        <button onclick="openModal('transfer')" class="btn btn-primary flex items-center justify-center gap-1"><i data-lucide="arrow-right-left" class="w-4 h-4"></i> <span id="btnTransfer">Transferir</span></button>
+        <button onclick="openModal('payment')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="qr-code" class="w-4 h-4"></i> <span id="btnPayment">Pagar QR</span></button>
+        <button onclick="openModal('billing')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="receipt-text" class="w-4 h-4"></i> <span id="btnExtracto">Extracto</span></button>
+        <button onclick="openModal('settings')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="settings" class="w-4 h-4"></i> <span id="btnAjustes">Ajustes</span></button>
       </div>
     </div>
 
@@ -300,6 +300,16 @@
         facturaTitle: "FACTURA RESUMEN MENSUAL", facturaDate: "Fecha", facturaTotal: "Total Comisiones",
         facturaIva: "IVA 10%", facturaGravadas: "Gravadas 10%", facturaItems: "Transacciones",
         noReceipts: "Sin recibos este mes",
+        // Bank World
+        bankBalanceLabel: "Saldo Disponible", bankCardLabel: "Tarjeta Virtual de Débito", bankCardReady: "● Tarjeta virtual lista para usar",
+        btnTransfer: "Transferir", btnPayment: "Pagar QR", btnExtracto: "Extracto", btnAjustes: "Ajustes",
+        modalTransferTitle: "Transferencia Bancaria", transferFreeNote: "Transferencias en Gs. son gratuitas (0% comisión)",
+        transferDestPlaceholder: "Cuenta destino / Email / Teléfono", transferAmountPlaceholder: "Monto en Gs.",
+        transferFeeInfo: "Comisión: Gratis (0%)", btnConfirmTransfer: "Confirmar Transferencia",
+        modalPaymentTitle: "Pagar con QR", paymentScanNote: "Escanea el QR del comercio",
+        paymentAmountPlaceholder: "Monto en Gs.", btnConfirmPayment: "Confirmar Pago",
+        transferSuccess: "Transferencia enviada", paymentSuccess: "Pago realizado",
+        accountNumber: "● Cuenta Corriente",
       },
       en: {
         totalBalance: "Total Balance", totalGs: "Gs.", yieldLabel: "DeFi Yield (3% APY)",
@@ -321,6 +331,16 @@
         facturaTitle: "MONTHLY SUMMARY INVOICE", facturaDate: "Date", facturaTotal: "Total Fees",
         facturaIva: "VAT 10%", facturaGravadas: "Taxable 10%", facturaItems: "Transactions",
         noReceipts: "No receipts this month",
+        // Bank World
+        bankBalanceLabel: "Available Balance", bankCardLabel: "Virtual Debit Card", bankCardReady: "● Virtual card ready to use",
+        btnTransfer: "Transfer", btnPayment: "Pay QR", btnExtracto: "Statement", btnAjustes: "Settings",
+        modalTransferTitle: "Bank Transfer", transferFreeNote: "Gs. transfers are free (0% fee)",
+        transferDestPlaceholder: "Destination account / Email / Phone", transferAmountPlaceholder: "Amount in Gs.",
+        transferFeeInfo: "Fee: Free (0%)", btnConfirmTransfer: "Confirm Transfer",
+        modalPaymentTitle: "Pay with QR", paymentScanNote: "Scan merchant QR code",
+        paymentAmountPlaceholder: "Amount in Gs.", btnConfirmPayment: "Confirm Payment",
+        transferSuccess: "Transfer sent", paymentSuccess: "Payment completed",
+        accountNumber: "● Checking Account",
       },
       de: {
         totalBalance: "Gesamtguthaben", totalGs: "Gs.", yieldLabel: "DeFi Rendite (3% APY)",
@@ -342,6 +362,16 @@
         facturaTitle: "MONATLICHE SAMMELRECHNUNG", facturaDate: "Datum", facturaTotal: "Gesamtgebühren",
         facturaIva: "MwSt. 10%", facturaGravadas: "Steuerpflichtig 10%", facturaItems: "Transaktionen",
         noReceipts: "Keine Belege diesen Monat",
+        // Bank World
+        bankBalanceLabel: "Verfügbares Guthaben", bankCardLabel: "Virtuelle Debitkarte", bankCardReady: "● Virtuelle Karte bereit",
+        btnTransfer: "Überweisen", btnPayment: "QR Zahlen", btnExtracto: "Kontoauszug", btnAjustes: "Einstellungen",
+        modalTransferTitle: "Banküberweisung", transferFreeNote: "Gs. Überweisungen sind kostenlos (0% Gebühr)",
+        transferDestPlaceholder: "Zielkonto / E-Mail / Telefon", transferAmountPlaceholder: "Betrag in Gs.",
+        transferFeeInfo: "Gebühr: Kostenlos (0%)", btnConfirmTransfer: "Überweisung bestätigen",
+        modalPaymentTitle: "Mit QR zahlen", paymentScanNote: "Händler-QR scannen",
+        paymentAmountPlaceholder: "Betrag in Gs.", btnConfirmPayment: "Zahlung bestätigen",
+        transferSuccess: "Überweisung gesendet", paymentSuccess: "Zahlung abgeschlossen",
+        accountNumber: "● Girokonto",
       }
     };
     let lang = 'es';
@@ -357,6 +387,7 @@
       refreshUI();
     }
     function refreshUI() {
+      // Crypto World labels
       document.getElementById('totalLabel').textContent = t('totalBalance');
       document.getElementById('yieldLabel').textContent = t('yieldLabel');
       document.getElementById('yieldChartLabel').textContent = t('yieldChartLabel');
@@ -387,6 +418,30 @@
       document.getElementById('swapToLabel').textContent = t('swapToLabel');
       document.getElementById('tabCryptoLabel').textContent = t('tabCryptoLabel');
       document.getElementById('tabBankLabel').textContent = t('tabBankLabel');
+      
+      // Bank World labels
+      document.getElementById('bankBalanceLabel').textContent = t('bankBalanceLabel');
+      document.getElementById('bankCardLabel').textContent = t('bankCardLabel');
+      document.getElementById('bankCardReady').textContent = t('bankCardReady');
+      document.getElementById('bankAccountLabel').textContent = t('accountNumber');
+      document.getElementById('btnTransfer').textContent = t('btnTransfer');
+      document.getElementById('btnPayment').textContent = t('btnPayment');
+      document.getElementById('btnExtracto').textContent = t('btnExtracto');
+      document.getElementById('btnAjustes').textContent = t('btnAjustes');
+      
+      // Transfer Modal
+      document.getElementById('modalTransferTitle').textContent = t('modalTransferTitle');
+      document.getElementById('transferFreeNote').textContent = t('transferFreeNote');
+      document.getElementById('transferDest').placeholder = t('transferDestPlaceholder');
+      document.getElementById('transferAmount').placeholder = t('transferAmountPlaceholder');
+      document.getElementById('transferFeeInfo').textContent = t('transferFeeInfo');
+      document.querySelector('[onclick="doTransfer()"]').textContent = t('btnConfirmTransfer');
+      
+      // Payment Modal
+      document.getElementById('modalPaymentTitle').textContent = t('modalPaymentTitle');
+      document.getElementById('paymentScanNote').textContent = t('paymentScanNote');
+      document.getElementById('paymentAmount').placeholder = t('paymentAmountPlaceholder');
+      document.querySelector('[onclick="doPayment()"]').textContent = t('btnConfirmPayment');
     }
 
     // ======================== STATE ========================
