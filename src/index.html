@@ -69,48 +69,96 @@
       <button id="tabBank" class="tab-inactive flex-1 text-center py-2" onclick="switchWorld('bank')">🏦 <span id="tabBankLabel">Banca Paraguay</span></button>
     </nav>
 
-    <!-- Dashboard totals -->
-    <div id="dashboard" class="card mb-4">
-      <div class="text-sm" style="color:var(--text-dim)" id="totalLabel">Total Balance</div>
-      <div class="text-3xl font-bold mt-1" id="totalBalance">$0.00</div>
-      <div class="text-sm mt-1" style="color:var(--text-dim)" id="totalGs">Gs. 0</div>
-      <div class="mt-2 flex items-center gap-2">
-        <div class="flex-1 h-2 rounded-full" style="background:var(--border)">
-          <div id="balanceBar" class="h-2 rounded-full transition-all duration-500" style="width:0%;background:var(--accent)"></div>
+    <!-- ======================== CRYPTO WORLD DASHBOARD ======================== -->
+    <div id="cryptoDashboard">
+      <!-- Dashboard totals -->
+      <div id="dashboard" class="card mb-4">
+        <div class="text-sm" style="color:var(--text-dim)" id="totalLabel">Total Balance</div>
+        <div class="text-3xl font-bold mt-1" id="totalBalance">$0.00</div>
+        <div class="text-sm mt-1" style="color:var(--text-dim)" id="totalGs">Gs. 0</div>
+        <div class="mt-2 flex items-center gap-2">
+          <div class="flex-1 h-2 rounded-full" style="background:var(--border)">
+            <div id="balanceBar" class="h-2 rounded-full transition-all duration-500" style="width:0%;background:var(--accent)"></div>
+          </div>
+          <span class="text-xs" style="color:var(--text-dim)" id="barPercent">0%</span>
         </div>
-        <span class="text-xs" style="color:var(--text-dim)" id="barPercent">0%</span>
+      </div>
+
+      <!-- Yield counter -->
+      <div class="card mb-4 flex items-center justify-between" id="yieldCard">
+        <div>
+          <div class="text-sm" style="color:var(--text-dim)" id="yieldLabel">DeFi Yield (3% APY)</div>
+          <div class="text-lg font-bold yield-counter" style="color:var(--positive)" id="yieldDisplay">Gs. 0</div>
+        </div>
+        <i data-lucide="trending-up" style="color:var(--positive)"></i>
+      </div>
+
+      <!-- Yield Chart -->
+      <div class="card mb-4" id="yieldChartCard">
+        <div class="text-sm font-semibold mb-2" style="color:var(--text-dim)" id="yieldChartLabel">12-Month Projection</div>
+        <canvas id="yieldChart" height="160"></canvas>
+      </div>
+
+      <!-- Holdings list -->
+      <div class="card mb-4" id="holdingsCard">
+        <div class="text-sm font-semibold mb-3" style="color:var(--text-dim)" id="holdingsLabel">Holdings</div>
+        <div id="holdingsList" class="space-y-2"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button onclick="openModal('send')" class="btn btn-primary flex items-center justify-center gap-1"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> <span id="btnSend">Send</span></button>
+        <button onclick="openModal('receive')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> <span id="btnReceive">Receive</span></button>
+        <button onclick="openModal('swap')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="arrow-left-right" class="w-4 h-4"></i> <span id="btnSwap">Swap</span></button>
+        <button onclick="openModal('card')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="credit-card" class="w-4 h-4"></i> <span id="btnCard">Card</span></button>
+        <button onclick="openModal('billing')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="receipt-text" class="w-4 h-4"></i> <span id="btnBilling">Billing</span></button>
+        <button onclick="openModal('settings')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="settings" class="w-4 h-4"></i> <span id="btnSettings">Settings</span></button>
       </div>
     </div>
 
-    <!-- Yield counter -->
-    <div class="card mb-4 flex items-center justify-between" id="yieldCard">
-      <div>
-        <div class="text-sm" style="color:var(--text-dim)" id="yieldLabel">DeFi Yield (3% APY)</div>
-        <div class="text-lg font-bold yield-counter" style="color:var(--positive)" id="yieldDisplay">Gs. 0</div>
+    <!-- ======================== BANK WORLD DASHBOARD ======================== -->
+    <div id="bankDashboard" style="display:none">
+      <!-- Gs. Balance Card -->
+      <div class="card mb-4" style="background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)">
+        <div class="text-sm opacity-90" style="color:white" id="bankBalanceLabel">Saldo Disponible</div>
+        <div class="text-4xl font-bold mt-2" style="color:white" id="bankBalanceDisplay">Gs. 0</div>
+        <div class="text-xs mt-2 opacity-75" style="color:white">● Cuenta Corriente - 0001-2345-6789</div>
       </div>
-      <i data-lucide="trending-up" style="color:var(--positive)"></i>
-    </div>
 
-    <!-- Yield Chart -->
-    <div class="card mb-4" id="yieldChartCard">
-      <div class="text-sm font-semibold mb-2" style="color:var(--text-dim)" id="yieldChartLabel">12-Month Projection</div>
-      <canvas id="yieldChart" height="160"></canvas>
-    </div>
+      <!-- Virtual Debit Card -->
+      <div class="card mb-4" id="virtualCardContainer">
+        <div class="text-sm font-semibold mb-3" style="color:var(--text-dim)">Tarjeta Virtual de Débito</div>
+        <!-- Card Visualization -->
+        <div class="rounded-2xl p-5 text-white mb-3" style="background:linear-gradient(135deg, #059669 0%, #047857 40%, #065f46 100%); min-height:180px; box-shadow: 0 10px 40px rgba(5,150,105,0.3); position:relative; overflow:hidden">
+          <!-- Subtle pattern overlay -->
+          <div style="position:absolute;inset:0;opacity:0.1;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.1) 10px,rgba(255,255,255,0.1) 20px)"></div>
+          <div style="position:relative;z-index:1">
+            <div class="text-xs opacity-80">Crypt Connect</div>
+            <div class="mt-5 text-lg font-mono tracking-widest" style="filter:blur(3px);user-select:none">•••• •••• •••• 4258</div>
+            <div class="flex justify-between mt-5">
+              <div>
+                <div class="text-xs opacity-80">TITULAR</div>
+                <div class="text-sm font-semibold">Pascal Thommen</div>
+              </div>
+              <div class="text-xs opacity-80" style="text-align:right">VENCE<br>12/28</div>
+            </div>
+          </div>
+        </div>
+        <!-- Add to Google Pay -->
+        <button class="btn w-full mb-3 flex items-center justify-center gap-2" style="background:#1a73e8;color:white;border:none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S14.86 2 12.2 2C6.73 2 2 6.48 2 12s4.73 10 10 10c5.19 0 8.8-3.74 8.8-9.27 0-.65-.05-1.15-.15-1.63z"/></svg>
+          Add to Google Pay
+        </button>
+        <div class="text-xs text-center" style="color:var(--text-dim)">● Tarjeta virtual lista para usar</div>
+      </div>
 
-    <!-- Holdings list -->
-    <div class="card mb-4" id="holdingsCard">
-      <div class="text-sm font-semibold mb-3" style="color:var(--text-dim)" id="holdingsLabel">Holdings</div>
-      <div id="holdingsList" class="space-y-2"></div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-2 gap-2 mb-4">
-      <button onclick="openModal('send')" class="btn btn-primary flex items-center justify-center gap-1"><i data-lucide="arrow-up-right" class="w-4 h-4"></i> <span id="btnSend">Send</span></button>
-      <button onclick="openModal('receive')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> <span id="btnReceive">Receive</span></button>
-      <button onclick="openModal('swap')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="arrow-left-right" class="w-4 h-4"></i> <span id="btnSwap">Swap</span></button>
-      <button onclick="openModal('card')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="credit-card" class="w-4 h-4"></i> <span id="btnCard">Card</span></button>
-      <button onclick="openModal('billing')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="receipt-text" class="w-4 h-4"></i> <span id="btnBilling">Billing</span></button>
-      <button onclick="openModal('settings')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="settings" class="w-4 h-4"></i> <span id="btnSettings">Settings</span></button>
+      <!-- Banking Actions -->
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <button onclick="openModal('transfer')" class="btn btn-primary flex items-center justify-center gap-1"><i data-lucide="arrow-right-left" class="w-4 h-4"></i> <span>Transferir</span></button>
+        <button onclick="openModal('payment')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="qr-code" class="w-4 h-4"></i> <span>Pagar QR</span></button>
+        <button onclick="openModal('billing')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="receipt-text" class="w-4 h-4"></i> <span>Extracto</span></button>
+        <button onclick="openModal('settings')" class="btn btn-secondary flex items-center justify-center gap-1"><i data-lucide="settings" class="w-4 h-4"></i> <span>Ajustes</span></button>
+      </div>
     </div>
 
     <!-- API status -->
@@ -199,6 +247,33 @@
       <div class="flex justify-between items-center mb-3"><h2 class="text-lg font-bold" id="modalSettingsTitle">Settings</h2><button onclick="closeModal('settings')" style="color:var(--text-dim)">✕</button></div>
       <button onclick="resetData()" class="btn btn-secondary w-full mb-2" id="btnReset">Reset to Defaults</button>
       <div class="text-xs" style="color:var(--text-dim)" id="settingsStorage"></div>
+    </div>
+  </div>
+
+  <!-- Transfer Modal (Bank World) -->
+  <div id="modal-transfer" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <div class="flex justify-between items-center mb-3"><h2 class="text-lg font-bold">Transferencia Bancaria</h2><button onclick="closeModal('transfer')" style="color:var(--text-dim)">✕</button></div>
+      <div class="text-xs mb-3" style="color:var(--text-dim)">Transferencias en Gs. son gratuitas (0% comisión)</div>
+      <input id="transferDest" class="input mb-2" placeholder="Cuenta destino / Email / Teléfono">
+      <input id="transferAmount" class="input mb-2" type="number" step="any" placeholder="Monto en Gs." min="0">
+      <div class="text-xs mb-2" style="color:var(--text-dim)" id="transferFeeInfo">Comisión: Gratis (0%)</div>
+      <button onclick="doTransfer()" class="btn btn-primary w-full">Confirmar Transferencia</button>
+    </div>
+  </div>
+
+  <!-- Payment QR Modal (Bank World) -->
+  <div id="modal-payment" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <div class="flex justify-between items-center mb-3"><h2 class="text-lg font-bold">Pagar con QR</h2><button onclick="closeModal('payment')" style="color:var(--text-dim)">✕</button></div>
+      <div class="text-center mb-3">
+        <div class="text-sm" style="color:var(--text-dim)">Escanea el QR del comercio</div>
+      </div>
+      <div class="flex justify-center mb-3">
+        <div class="text-6xl">📱</div>
+      </div>
+      <input id="paymentAmount" class="input mb-2" type="number" step="any" placeholder="Monto en Gs." min="0">
+      <button onclick="doPayment()" class="btn btn-primary w-full">Confirmar Pago</button>
     </div>
   </div>
 
@@ -557,12 +632,29 @@
       if (w === 'crypto') {
         document.getElementById('tabCrypto').className = 'tab-active flex-1 text-center py-2';
         document.getElementById('tabBank').className = 'tab-inactive flex-1 text-center py-2';
+        document.getElementById('cryptoDashboard').style.display = 'block';
+        document.getElementById('bankDashboard').style.display = 'none';
+        renderCryptoDashboard();
       } else {
         document.getElementById('tabCrypto').className = 'tab-inactive flex-1 text-center py-2';
         document.getElementById('tabBank').className = 'tab-active flex-1 text-center py-2';
+        document.getElementById('cryptoDashboard').style.display = 'none';
+        document.getElementById('bankDashboard').style.display = 'block';
+        renderBankDashboard();
       }
       // Lucide re-init after DOM changes
       lucide.createIcons();
+    }
+
+    // ======================== DASHBOARD RENDERING ========================
+    function renderCryptoDashboard() {
+      updateDashboard();
+    }
+
+    function renderBankDashboard() {
+      // Show only Gs. balance for bank world
+      var gsBalance = holdings['Gs'] || 0;
+      document.getElementById('bankBalanceDisplay').textContent = 'Gs. ' + Math.round(gsBalance).toLocaleString();
     }
 
     // ======================== THEME TOGGLE ========================
@@ -815,6 +907,66 @@
       }
       updateDashboard();
       document.getElementById('cardBalance').textContent = Math.round(holdings['Gs'] || 0).toLocaleString();
+    }
+
+    // ======================== BANK WORLD TRANSACTIONS ========================
+    function doTransfer() {
+      var dest = document.getElementById('transferDest').value;
+      var amountGs = parseFloat(document.getElementById('transferAmount').value) || 0;
+      if (!dest || amountGs <= 0) { toast('Monto inválido', 'error'); return; }
+      
+      // Gs-to-Gs transfers are FREE (Rule C)
+      if (amountGs > (holdings['Gs'] || 0)) {
+        toast(t('insuficiente'), 'error');
+        return;
+      }
+      
+      // Deduct Gs
+      holdings['Gs'] -= amountGs;
+      
+      // Create receipt (free transfer, but still documented)
+      receipts.push({
+        date: new Date().toISOString(),
+        type: 'bank_transfer',
+        destination: dest,
+        amountGs: amountGs,
+        fee: { serviceFee: 0, iva: 0, gravadas: 0, total: 0 },
+        note: 'Transferencia gratuita (Gs → Gs)'
+      });
+      
+      saveState();
+      renderBankDashboard();
+      updateDashboard();
+      toast('Transferencia enviada: Gs. ' + amountGs.toLocaleString(), 'success');
+      closeModal('transfer');
+    }
+
+    function doPayment() {
+      var amountGs = parseFloat(document.getElementById('paymentAmount').value) || 0;
+      if (amountGs <= 0) { toast('Monto inválido', 'error'); return; }
+      
+      if (amountGs > (holdings['Gs'] || 0)) {
+        toast(t('insuficiente'), 'error');
+        return;
+      }
+      
+      // Deduct Gs
+      holdings['Gs'] -= amountGs;
+      
+      // Create receipt for QR payment
+      receipts.push({
+        date: new Date().toISOString(),
+        type: 'qr_payment',
+        amountGs: amountGs,
+        fee: { serviceFee: 0, iva: 0, gravadas: 0, total: 0 },
+        note: 'Pago QR'
+      });
+      
+      saveState();
+      renderBankDashboard();
+      updateDashboard();
+      toast('Pago realizado: Gs. ' + amountGs.toLocaleString(), 'success');
+      closeModal('payment');
     }
 
     // ======================== FACTURACION ========================
