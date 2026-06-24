@@ -1,16 +1,11 @@
 services:
-  cryptconnect:
+  criptconnect:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cryptconnect
+    container_name: criptconnect-demo
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "3333:80"
     restart: unless-stopped
-    networks:
-      - web
-
-networks:
-  web:
-    external: true
+    labels:
+      - "com.docker.description=CriptConnect Demo App"
