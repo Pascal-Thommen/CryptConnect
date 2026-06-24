@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../../context/AppContext.jsx'
 import { useToast } from '../../components/Toast.jsx'
 import { Modal } from '../../components/Modal.jsx'
+import { Icon } from '../../components/Icons.jsx'
 import { formatPYG, formatCrypto } from '../../utils/formatters.js'
 import { calcSendFee } from '../../utils/feeCalculator.js'
 
@@ -150,7 +150,9 @@ export function Enviar({ onClose }) {
       {/* Success Modal */}
       <Modal open={step === 'success'} onClose={onClose}>
         <div className="text-center">
-          <div className="text-5xl mb-4">✅</div>
+          <div className="w-14 h-14 rounded-full bg-green/15 border border-green/30 flex items-center justify-center mx-auto mb-4">
+            <Icon name="check" size={28} className="text-green" />
+          </div>
           <h3 className="text-text-primary font-semibold text-lg mb-2">{te.exito}</h3>
           <p className="text-text-secondary text-sm">{te.enviaste} {asset === 'fiat' ? formatPYG(amount) : `${amount} ${asset}`} {te.a} {recipient || '—'}</p>
           <p className="text-text-muted text-xs mt-2">{te.referencia}: {ref}</p>
@@ -164,7 +166,9 @@ export function Enviar({ onClose }) {
       {/* Error Modal */}
       <Modal open={step === 'error'} onClose={() => setStep('form')}>
         <div className="text-center">
-          <div className="text-5xl mb-4">❌</div>
+          <div className="w-14 h-14 rounded-full bg-red/10 border border-red/20 flex items-center justify-center mx-auto mb-4">
+            <Icon name="error" size={28} className="text-red" />
+          </div>
           <h3 className="text-text-primary font-semibold text-lg mb-2">{te.fondosInsuficientes}</h3>
           <p className="text-text-secondary text-sm">{te.saldoDisponible}: {balanceDisplay}</p>
           <p className="text-text-secondary text-sm">{te.montoSolicitado}: {asset === 'fiat' ? formatPYG(total) : `${total.toFixed(8)} ${asset}`}</p>

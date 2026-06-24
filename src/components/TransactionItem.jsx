@@ -1,12 +1,13 @@
 import React from 'react'
+import { Icon } from './Icons.jsx'
 import { formatPYG, shortDate } from '../utils/formatters.js'
 
-const iconMap = {
-  recibido: { icon: '↓', color: 'text-green', bg: 'bg-green/10' },
-  enviado: { icon: '↑', color: 'text-red', bg: 'bg-red/10' },
-  pago: { icon: '🧾', color: 'text-gold', bg: 'bg-gold/10' },
-  swap: { icon: '⇄', color: 'text-teal', bg: 'bg-teal/10' },
-  'compra-xstock': { icon: '📈', color: 'text-teal', bg: 'bg-teal/10' },
+const typeConfig = {
+  recibido:       { icon: 'arrowDown', color: 'text-green',         bg: 'bg-green/10' },
+  enviado:        { icon: 'arrowUp',   color: 'text-red',           bg: 'bg-red/10' },
+  pago:           { icon: 'services',  color: 'text-text-secondary', bg: 'bg-bg-elevated' },
+  swap:           { icon: 'swap',      color: 'text-teal',           bg: 'bg-teal/10' },
+  'compra-xstock':{ icon: 'trendUp',   color: 'text-teal',           bg: 'bg-teal/10' },
 }
 
 function formatTxAmount(tx) {
@@ -18,25 +19,25 @@ function formatTxAmount(tx) {
     return { text: `${Math.abs(monto)} ${asset}`, positive: tipo === 'recibido' }
   }
   if (tipo === 'swap') {
-    return { text: `${tx.montoOrigen} ${asset.split('→')[0]} → ${monto} ${asset.split('→')[1]}`, positive: true }
+    return { text: `${tx.montoOrigen} ${asset.split('→')[0]}`, positive: false }
   }
   return { text: formatPYG(Math.abs(monto)), positive: monto > 0 }
 }
 
 export function TransactionItem({ tx }) {
-  const style = iconMap[tx.tipo] || { icon: '•', color: 'text-text-secondary', bg: 'bg-bg-elevated' }
+  const style = typeConfig[tx.tipo] || { icon: 'chevronRight', color: 'text-text-secondary', bg: 'bg-bg-elevated' }
   const { text, positive } = formatTxAmount(tx)
 
   return (
-    <div className="flex items-center gap-3 py-3 border-b border-border-color/50 last:border-0">
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${style.bg}`}>
-        <span className={style.color}>{style.icon}</span>
+    <div className="flex items-center gap-3 py-3.5 border-b border-border-color/40 last:border-0">
+      <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${style.bg}`}>
+        <Icon name={style.icon} size={16} className={style.color} />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-text-primary text-sm font-medium truncate">{tx.descripcion}</p>
-        <p className="text-text-muted text-xs">{shortDate(tx.fecha)}</p>
+        <p className="text-text-muted text-xs mt-0.5">{shortDate(tx.fecha)}</p>
       </div>
-      <span className={`text-sm font-semibold tabular-nums ${positive ? 'text-green' : 'text-red'}`}>
+      <span className={`text-sm font-semibold tabular-nums flex-shrink-0 ${positive ? 'text-green' : 'text-text-secondary'}`}>
         {positive ? '+' : ''}{text}
       </span>
     </div>

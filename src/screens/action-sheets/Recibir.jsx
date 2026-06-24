@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import { useApp } from '../../context/AppContext.jsx'
 import { useToast } from '../../components/Toast.jsx'
+import { Icon } from '../../components/Icons.jsx'
 
 const ASSETS = [
   { id: 'fiat', label: '₲ Guaraníes', icon: '₲' },
@@ -59,10 +60,12 @@ export function Recibir({ onClose }) {
         </div>
 
         <div className="flex gap-3">
-          <button onClick={copy} className="flex-1 py-3 bg-teal rounded-xl text-bg-primary font-semibold text-sm">
+          <button onClick={copy} className="flex-1 flex items-center justify-center gap-2 py-3 bg-teal rounded-xl text-bg-primary font-semibold text-sm">
+            <Icon name="copy" size={15} />
             {tr.copiar}
           </button>
-          <button className="flex-1 py-3 border border-border-color rounded-xl text-text-secondary text-sm">
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 border border-border-color rounded-xl text-text-secondary text-sm">
+            <Icon name="share" size={15} />
             {tr.compartir}
           </button>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Icon } from '../../components/Icons.jsx'
 import { useApp } from '../../context/AppContext.jsx'
 import { useToast } from '../../components/Toast.jsx'
 import { Modal } from '../../components/Modal.jsx'
@@ -119,9 +120,9 @@ export function Swap({ onClose }) {
         <div className="flex justify-center">
           <button
             onClick={() => { setFrom(to); setTo(from) }}
-            className="w-10 h-10 rounded-full bg-bg-card border border-border-color flex items-center justify-center text-teal"
+            className="w-10 h-10 rounded-full bg-bg-card border border-border-color flex items-center justify-center text-teal hover:border-teal/50 transition-colors"
           >
-            ⇅
+            <Icon name="swap" size={18} />
           </button>
         </div>
 
@@ -173,8 +174,10 @@ export function Swap({ onClose }) {
 
       <Modal open={step === 'success'} onClose={onClose}>
         <div className="text-center">
-          <div className="text-5xl mb-4">✅</div>
-          <h3 className="text-text-primary font-semibold text-lg mb-2">¡Swap Exitoso!</h3>
+          <div className="w-14 h-14 rounded-full bg-green/15 border border-green/30 flex items-center justify-center mx-auto mb-4">
+            <Icon name="check" size={28} className="text-green" />
+          </div>
+          <h3 className="text-text-primary font-semibold text-lg mb-2">Swap Exitoso</h3>
           <p className="text-text-secondary text-sm">
             {amount} {from} → {to === 'fiat' ? formatPYG(receiveAmount) : `${receiveAmount.toFixed(8)} ${to}`}
           </p>
